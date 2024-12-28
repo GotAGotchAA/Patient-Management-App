@@ -44,6 +44,11 @@ const ListPatient = () => {
     }
   };
 
+  // Function to navigate to the Patient Details page
+  const handleViewPatientDetails = (id) => {
+    navigate(`/patients/${id}`);
+  };
+
   return (
     <div className="patient-list-container">
       <h2>Patient List</h2>
@@ -65,7 +70,11 @@ const ListPatient = () => {
           {patients.length > 0 ? (
             patients.map((patient) => (
               <tr key={patient.id}> {/* Use the unique ID as the key */}
-                <td>{patient.name}</td>
+                <td>
+                  <button onClick={() => handleViewPatientDetails(patient.id)}>
+                    {patient.name}
+                  </button>
+                </td>
                 <td>{patient.age}</td>
                 <td>{patient.medicalCondition}</td>
                 <td>{patient.wearableId}</td>

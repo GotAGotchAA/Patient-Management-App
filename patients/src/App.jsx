@@ -9,7 +9,9 @@ import RegisterPage from './pages/auth/RegisterPage';
 import ListPatient from './pages/patients/ListPatient';
 import PostPatient from './pages/patients/PostPatient';
 import EditPatient from './pages/patients/EditPatient';
-import MapComponent from './pages/map/MapComponent'; // Import the new MapPage component
+import MapComponent from './pages/map/MapComponent';
+import PatientDetails from './pages/patients/DetailPatient';
+import Alert from './pages/alerts/Alerts'; // Import the Alert component
 
 function App() {
   const location = useLocation(); // Get the current route
@@ -30,6 +32,8 @@ function App() {
         <Route path="/add-patient" element={<PostPatient />} /> {/* Add route for PostPatient */}
         <Route path="/patients/edit/:userId" element={<EditPatient />} /> {/* Correct way to use 'element' */}
         <Route path="/safezones" element={<MapComponent />} /> {/* New route for SafeZones map */}
+        <Route path="/patients/:userId" element={<PatientDetails />} />
+        <Route path="/alerts" element={<Alert />} /> {/* Add new route for Alerts */}
         <Route path='*' element={<NoMatch />} /> {/* Route not found */}
       </Routes>
     </>

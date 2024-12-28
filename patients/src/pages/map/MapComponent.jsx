@@ -1,33 +1,50 @@
-// src/components/MapComponent.jsx
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';  // Import Leaflet library for custom markers
-import 'leaflet/dist/leaflet.css';  // Import Leaflet CSS
+import React, { useState } from "react";
+import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 
-const MapComponent = ({ latitude, longitude, radius }) => {
-  const [center, setCenter] = useState([latitude, longitude]);
+const MapComponent = ({ locations }) => {
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
-  useEffect(() => {
-    setCenter([latitude, longitude]);
-  }, [latitude, longitude]);
+  const mapContainerStyle = {
+    height: "400px",
+    width: "100%",
+  };
+
+  const center = {
+    lat: locations[0]?.latitude || 34.052235, // Default to San Francisco
+    lng: locations[0]?.longitude || -118.243683,
+  };
 
   return (
-    <MapContainer center={center} zoom={13} style={{ width: '100%', height: '400px' }}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <Marker position={center}>
-        <Popup>
-          <div>
-            <h4>Patient's Safe Zone</h4>
-            <p>Latitude: {latitude}</p>
-            <p>Longitude: {longitude}</p>
-            <p>Radius: {radius} meters</p>
-          </div>
-        </Popup>
-      </Marker>
-    </MapContainer>
+    <LoadScript googleMapsApiKey="AIzaSyDUP9KEwJgyv1PpGQml5c9kAn18mNeZnB8">
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        center={center}
+        zoom={13}
+      >
+        {locations.map((loc, index) => (
+          <Marker
+            key={index}
+            position={{ lat: loc.latitude, lng: loc.longitude }}
+            onClick={() => setSelectedLocation(loc)}
+          />
+        ))}
+
+        {selectedLocation && (
+          <InfoWindow
+            position={{
+              lat: selectedLocation.latitude,
+              lng: selectedLocation.longitude,
+            }}
+            onCloseClick={() => setSelectedLocation(null)}
+          >
+            <div>
+              <h2>{`Location ID: ${selectedLocation.id}`}</h2>
+              <p>{`Timestamp: ${selectedLocation.timestamp}`}</p>
+            </div>
+          </InfoWindow>
+        )}
+      </GoogleMap>
+    </LoadScript>
   );
 };
 
