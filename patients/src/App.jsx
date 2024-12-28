@@ -4,11 +4,12 @@ import Header from './pages/header/Header';
 import './App.css';
 import Dashboard from './pages/dashboard/Dashboard';
 import NoMatch from './pages/noMatch/NoMatch';
-import LoginPage from './pages/auth/LoginPage'; // Import the LoginPage component
-import RegisterPage from './pages/auth/RegisterPage'; // Import RegisterPage
+import LoginPage from './pages/auth/LoginPage';
+import RegisterPage from './pages/auth/RegisterPage';
 import ListPatient from './pages/patients/ListPatient';
 import PostPatient from './pages/patients/PostPatient';
 import EditPatient from './pages/patients/EditPatient';
+import MapComponent from './pages/map/MapComponent'; // Import the new MapPage component
 
 function App() {
   const location = useLocation(); // Get the current route
@@ -28,6 +29,7 @@ function App() {
         <Route path="/patients" element={<ListPatient />} />
         <Route path="/add-patient" element={<PostPatient />} /> {/* Add route for PostPatient */}
         <Route path="/patients/edit/:userId" element={<EditPatient />} /> {/* Correct way to use 'element' */}
+        <Route path="/safezones" element={<MapComponent />} /> {/* New route for SafeZones map */}
         <Route path='*' element={<NoMatch />} /> {/* Route not found */}
       </Routes>
     </>

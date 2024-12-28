@@ -5,6 +5,7 @@ import './PostPatient.css'; // Optional CSS file for styling
 
 const PostPatient = () => {
   const [name, setName] = useState('');
+  const [id, setId] = useState('');
   const [age, setAge] = useState('');
   const [medicalCondition, setMedicalCondition] = useState('');
   const [wearableId, setWearableId] = useState('');
@@ -36,6 +37,13 @@ const PostPatient = () => {
       {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit} className="post-patient-form">
         <div className="form-group">
+        <label htmlFor="name">CIN:</label>
+          <input
+            type="number"
+            id="id"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+          />
           <label htmlFor="name">Full Name:</label>
           <input
             type="text"
@@ -68,7 +76,7 @@ const PostPatient = () => {
         <div className="form-group">
           <label htmlFor="wearableId">Wearable ID:</label>
           <input
-            type="text"
+            type="number"
             id="wearableId"
             value={wearableId}
             onChange={(e) => setWearableId(e.target.value)}

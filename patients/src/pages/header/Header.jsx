@@ -12,7 +12,7 @@ const Header = () => {
                     <strong>Patient Management System</strong>
                 </Navbar.Brand>
                 <Nav className="ml-auto">
-                    <Nav.Link as={Link} to="/" className="nav-link">Patients List</Nav.Link>
+                    <Nav.Link as={Link} to="/patients" className="nav-link">Patients List</Nav.Link>
                     <Nav.Link as={Link} to="/alerts" className="nav-link">Alerts</Nav.Link>
                 </Nav>
             </Container>

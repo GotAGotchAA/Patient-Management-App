@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './EditPatient.css';  // Import the CSS file
 
 const EditPatient = () => {
   const { userId } = useParams();  // Get userId from the route params
@@ -34,7 +35,7 @@ const EditPatient = () => {
   };
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className="error-message">{error}</p>;
   }
 
   if (!patient) {
@@ -42,10 +43,10 @@ const EditPatient = () => {
   }
 
   return (
-    <div>
+    <div className="edit-patient-container">
       <h2>Edit Patient</h2>
       <form>
-        <div>
+        <div className="form-group">
           <label>Name</label>
           <input
             type="text"
@@ -53,7 +54,7 @@ const EditPatient = () => {
             onChange={(e) => setPatient({ ...patient, name: e.target.value })}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Age</label>
           <input
             type="number"
@@ -61,7 +62,7 @@ const EditPatient = () => {
             onChange={(e) => setPatient({ ...patient, age: e.target.value })}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Medical Condition</label>
           <input
             type="text"
@@ -69,7 +70,7 @@ const EditPatient = () => {
             onChange={(e) => setPatient({ ...patient, medicalCondition: e.target.value })}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Wearable ID</label>
           <input
             type="text"

@@ -14,6 +14,7 @@ const ListPatient = () => {
       try {
         const response = await axios.get('http://localhost:8081/api/patients');
         setPatients(response.data);
+        console.log(response.data);
       } catch (err) {
         setError('Error fetching patient data.');
       }
@@ -28,16 +29,16 @@ const ListPatient = () => {
   };
 
   // Function to handle editing a patient
-  const handleEditPatient = (userId) => {
-    // Navigate to the EditPatient page with the patient userId
-    navigate(`/patients/edit/${userId}`);
+  const handleEditPatient = (id) => {
+    // Navigate to the EditPatient page with the patient ID
+    navigate(`/patients/edit/${id}`);
   };
 
   // Function to handle deleting a patient
-  const handleDeletePatient = async (userId) => {
+  const handleDeletePatient = async (id) => {
     try {
-      await axios.delete(`http://localhost:8081/api/patients/${userId}`); // Use patient userId for delete request
-      setPatients(patients.filter(patient => patient.userId !== userId)); // Remove deleted patient from state
+      await axios.delete(`http://localhost:8081/api/patients/${id}`); // Use patient ID for delete request
+      setPatients(patients.filter(patient => patient.id !== id)); // Remove deleted patient from state
     } catch (err) {
       setError('Error deleting patient.');
     }
@@ -62,22 +63,18 @@ const ListPatient = () => {
         </thead>
         <tbody>
           {patients.length > 0 ? (
-            patients.map((patient) => {
-              // Log the userId of each patient
-              console.log('Patient userId:', patient.userId);
-              return (
-                <tr key={patient.userId}> {/* Use userId as the key */}
-                  <td>{patient.name}</td>
-                  <td>{patient.age}</td>
-                  <td>{patient.medicalCondition}</td>
-                  <td>{patient.wearableId}</td>
-                  <td>
-                    <button onClick={() => handleEditPatient(patient.userId)}>Edit</button>
-                    <button onClick={() => handleDeletePatient(patient.userId)}>Delete</button>
-                  </td>
-                </tr>
-              );
-            })
+            patients.map((patient) => (
+              <tr key={patient.id}> {/* Use the unique ID as the key */}
+                <td>{patient.name}</td>
+                <td>{patient.age}</td>
+                <td>{patient.medicalCondition}</td>
+                <td>{patient.wearableId}</td>
+                <td>
+                  <button onClick={() => handleEditPatient(patient.id)}>Edit</button>
+                  <button onClick={() => handleDeletePatient(patient.id)}>Delete</button>
+                </td>
+              </tr>
+            ))
           ) : (
             <tr>
               <td colSpan="5">No patients found.</td>

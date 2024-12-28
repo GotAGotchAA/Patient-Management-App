@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './LoginPage.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,14 +24,26 @@ const LoginPage = () => {
 
       // Handle successful login
       const token = response.data.token;
-      console.log(token);
+      console.log('Login response:', response.data);
       localStorage.setItem('jwtToken', token); // Store token in localStorage
-      
+
+      // Fetch user details after login
+      const userResponse = await axios.get('http://localhost:8089/users/me', {
+        headers: {
+          Authorization: `Bearer ${token}` // Add JWT token in the Authorization header
+        }
+      });
+
+      const userId = userResponse.data.id; // Assuming the user ID is in the 'id' field
+      console.log('User Details:', userResponse.data);
+      localStorage.setItem('userId', userId); // Store the user ID if needed
+
       // Redirect to the dashboard after successful login
-      navigate('/dashboard'); // Navigate to the dashboard page
+      navigate('/patients'); // Navigate to the dashboard page
 
     } catch (err) {
       setError('Invalid credentials or server error');
+      console.error(err);
     }
   };
 
