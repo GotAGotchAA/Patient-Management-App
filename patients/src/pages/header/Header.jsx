@@ -23,7 +23,7 @@ const Header = () => {
     return (
         <Navbar bg="primary" variant="dark" expand="lg">
             <Container>
-                <Navbar.Brand as={Link} to="/">
+                <Navbar.Brand as={Link} to="/patients">
                     <strong>Patient Management System</strong>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
