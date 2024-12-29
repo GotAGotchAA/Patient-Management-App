@@ -1,0 +1,100 @@
+/* General styling */
+.post-patient-container {
+    background-color: #ffffff; /* White background for the form */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for elevation */
+    padding: 30px;
+    max-width: 500px;
+    margin: 40px auto;
+  }
+  
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    text-align: center;
+    color: #007bff; /* Medical blue color */
+    margin-bottom: 20px;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    color: #e74c3c; /* Red for errors */
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Form styling */
+  .post-patient-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333333; /* Dark gray text for labels */
+    margin-bottom: 8px;
+  }
+  
+  input {
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #007bff; /* Blue border to match theme */
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  input:focus {
+    border-color: #0056b3; /* Darker blue when focused */
+  }
+  
+  /* Submit button styling */
+  .submit-button {
+    background-color: #007bff; /* Medical blue background */
+    color: #ffffff; /* White text */
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .submit-button:active {
+    background-color: #004080; /* Even darker blue when clicked */
+  }
+  
+  /* Media query for responsiveness */
+  @media (max-width: 768px) {
+    .post-patient-container {
+      padding: 20px;
+      margin: 20px;
+    }
+  
+    h2 {
+      font-size: 1.5rem;
+    }
+  
+    .form-group input {
+      font-size: 0.9rem;
+      padding: 10px;
+    }
+  
+    .submit-button {
+      font-size: 1rem;
+    }
+  }
+  

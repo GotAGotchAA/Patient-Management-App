@@ -1,45 +1,106 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Alerts.css';
 
 const Alert = () => {
   const [alerts, setAlerts] = useState([]);
-  const [error, setError] = useState('');
 
+  // Fetch alerts and corresponding patient details from the backend
   useEffect(() => {
-    const fetchAlerts = async () => {
+    const fetchAlertsWithPatientDetails = async () => {
       try {
         const response = await axios.get('http://localhost:8083/api/alerts');
-        setAlerts(response.data);
-      } catch (err) {
-        setError('Error fetching alerts.');
+        const alerts = response.data;
+
+        // Fetch patient details for each alert
+        const alertsWithPatientNames = await Promise.all(
+          alerts.map(async (alert) => {
+            try {
+              const patientResponse = await axios.get(
+                `http://localhost:8081/api/patients/${alert.patientId}`
+              );
+              return { ...alert, name: patientResponse.data.name };
+            } catch (error) {
+              console.error(`Error fetching patient details for ID ${alert.patientId}:`, error);
+              return { ...alert, name: 'Unknown' }; // Fallback name
+            }
+          })
+        );
+
+        setAlerts(alertsWithPatientNames);
+      } catch (error) {
+        console.error('Error fetching alerts:', error);
       }
     };
 
-    // Fetch alerts every 10 seconds
-    fetchAlerts(); // Initial fetch
-    const interval = setInterval(fetchAlerts, 10000);
-
-    return () => clearInterval(interval); // Cleanup on unmount
+    fetchAlertsWithPatientDetails();
   }, []);
 
+  // Function to update the alert status
+  const updateAlertStatus = async (alertId, newStatus) => {
+    try {
+      await axios.put(`http://localhost:8083/api/alerts/${alertId}/status?status=${newStatus}`);
+      setAlerts((prevAlerts) =>
+        prevAlerts.map((alert) =>
+          alert.id === alertId ? { ...alert, status: newStatus } : alert
+        )
+      );
+    } catch (error) {
+      console.error(`Error updating alert status for Alert ID ${alertId}:`, error);
+    }
+  };
+
   return (
-    <div className="alerts-container">
-      <h2>Patient Alerts</h2>
-      {error && <p className="error-message">{error}</p>}
-      {alerts.length > 0 ? (
-        <ul>
-          {alerts.map((alert) => (
-            <li key={alert.id} className="alert-item">
-              <strong>Patient ID:</strong> {alert.patientId} <br />
-              <strong>Type:</strong> {alert.type} <br />
-              <strong>Description:</strong> {alert.description} <br />
-              <strong>Time:</strong> {new Date(alert.timestamp).toLocaleString()} <br />
-              <strong>Status:</strong> {alert.status} <br />
-            </li>
-          ))}
-        </ul>
+    <div className="alert-container">
+      <h1>Alerts</h1>
+      {alerts.length === 0 ? (
+        <p className="no-alerts-message">No alerts available</p>
       ) : (
-        <p>No alerts at the moment.</p>
+        <table className="alert-table">
+          <thead>
+            <tr>
+              <th>Patient Name</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {alerts.map((alert) => (
+              <tr key={alert.id}>
+                <td>{alert.name}</td>
+                <td>{alert.type}</td>
+                <td>{alert.message || 'No description provided'}</td>
+                <td>{new Date(alert.timestamp).toLocaleString()}</td>
+                <td>{alert.status}</td>
+                <td>
+                  {(alert.status === 'New' ||
+                    alert.status === 'Safe Zone Breach' ||
+                    alert.status === 'Unusual Movement') ? (
+                    <>
+                      <button
+                        className="acknowledge-button"
+                        onClick={() => updateAlertStatus(alert.id, 'Acknowledged')}
+                      >
+                        Acknowledge
+                      </button>
+                      <button
+                        className="resolve-button"
+                        onClick={() => updateAlertStatus(alert.id, 'Resolved')}
+                      >
+                        Resolve
+                      </button>
+                    </>
+                  ) : (
+                    <span>No actions available</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

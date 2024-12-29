@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import MapComponent from "../map/MapComponent";
+import './DetailPatient.css';  // Importing the CSS file
 
 const PatientDetails = () => {
   const { userId } = useParams();
@@ -47,11 +48,11 @@ const PatientDetails = () => {
     }
   }, [userId]);
 
-  if (loadingPatient) return <p>Loading patient details...</p>;
+  if (loadingPatient) return <p className="loading">Loading patient details...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
   return (
-    <div>
+    <div className="patient-details-container">
       <h2>Patient Details</h2>
       <p><strong>Name:</strong> {patient?.name || "N/A"}</p>
       <p><strong>Age:</strong> {patient?.age || "N/A"}</p>
@@ -60,7 +61,7 @@ const PatientDetails = () => {
 
       <h3>SafeZone / Last Known Locations</h3>
       {loadingLocations ? (
-        <p>Loading location data...</p>
+        <p className="loading">Loading location data...</p>
       ) : (
         <>
           {locations.length > 0 ? (
@@ -72,7 +73,9 @@ const PatientDetails = () => {
                   </li>
                 ))}
               </ul>
-              <MapComponent locations={locations} />
+              <div className="map-container">
+                <MapComponent locations={locations} />
+              </div>
             </>
           ) : (
             <p>No location data available.</p>

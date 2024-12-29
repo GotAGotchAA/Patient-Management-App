@@ -1,49 +1,45 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { Link } from 'react-router-dom'; // Import Link for navigation
 import './LoginPage.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(''); // Clear previous errors
 
     try {
-      const response = await axios.post('http://localhost:8089/auth/login', {
-        email,
-        password,
-      }, {
-        withCredentials: true, // Ensure credentials are sent with the request
-      });
+      // Step 1: Authenticate user and get the token
+      const loginResponse = await axios.post(
+        'http://localhost:8089/auth/login',
+        { email, password },
+        { withCredentials: true } // Ensure credentials are sent with the request
+      );
 
-      // Handle successful login
-      const token = response.data.token;
-      console.log('Login response:', response.data);
+      const token = loginResponse.data.token;
+      console.log('Token:', token);
       localStorage.setItem('jwtToken', token); // Store token in localStorage
 
-      // Fetch user details after login
-      const userResponse = await axios.get('http://localhost:8089/users/me', {
-        headers: {
-          Authorization: `Bearer ${token}` // Add JWT token in the Authorization header
-        }
+      // Step 2: Fetch user data by email to get the user ID
+      const userResponse = await axios.get(`http://localhost:8089/users/email/${email}`, {
+        headers: { Authorization: `Bearer ${token}` }, // Include the token in the request header
       });
 
-      const userId = userResponse.data.id; // Assuming the user ID is in the 'id' field
-      console.log('User Details:', userResponse.data);
-      localStorage.setItem('userId', userId); // Store the user ID if needed
+      const userId = userResponse.data.id;
+      console.log('User ID:', userId);
+      localStorage.setItem('userId', userId); // Store user ID in localStorage
 
-      // Redirect to the dashboard after successful login
+      // Step 3: Redirect to the dashboard
       navigate('/patients'); // Navigate to the dashboard page
-
     } catch (err) {
+      console.error('Login or user data fetch error:', err);
       setError('Invalid credentials or server error');
-      console.error(err);
     }
   };
 

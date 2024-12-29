@@ -1,0 +1,124 @@
+/* Main container for the patient details page */
+.patient-details-container {
+    width: 85%;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .patient-details-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .patient-details-container h2 {
+    font-size: 2.2rem;
+    color: #1e3a8a;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  
+  .patient-details-container h3 {
+    font-size: 1.7rem;
+    color: #2d3748;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+  
+  .patient-details-container p {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin: 8px 0;
+    line-height: 1.6;
+  }
+  
+  .patient-details-container p strong {
+    color: #2d3748;
+  }
+  
+  .patient-details-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .patient-details-container ul li {
+    font-size: 1.1rem;
+    color: #4a5568;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f7fafc;
+    margin: 5px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .patient-details-container ul li:hover {
+    background-color: #e2e8f0;
+    transform: translateX(10px);
+  }
+  
+  .patient-details-container ul li strong {
+    color: #2d3748;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    color: #e53e3e;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Loading styles */
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+  }
+  
+  .loading p {
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin: 0;
+  }
+  
+  /* Map container styling */
+  .map-container {
+    width: 100%;
+    height: 450px;
+    border-radius: 12px;
+    margin-top: 30px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading adjustments */
+  h2, h3 {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  h3 {
+    color: #2d3748;
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .patient-details-container {
+      width: 95%;
+    }
+  
+    .patient-details-container h2 {
+      font-size: 1.8rem;
+    }
+  
+    .patient-details-container p {
+      font-size: 1rem;
+    }
+  }
+  

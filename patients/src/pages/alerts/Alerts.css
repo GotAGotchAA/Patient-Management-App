@@ -1,0 +1,95 @@
+/* General container for the alert section */
+.alert-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  margin: 40px auto;
+  max-width: 900px;
+}
+
+/* Heading styling */
+h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: #007bff; /* Medical blue color */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Styling for the "No alerts" message */
+.no-alerts-message {
+  color: #888;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* Styling for the alert table */
+.alert-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.alert-table th,
+.alert-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.alert-table th {
+  background-color: #007bff;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.alert-table td {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Styling for the action buttons */
+.alert-table button {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin: 0 5px;
+  transition: background-color 0.3s ease;
+}
+
+/* Acknowledge button - Green color */
+.acknowledge-button {
+  background-color: #28a745; /* Green */
+  color: white;
+}
+
+.acknowledge-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.acknowledge-button:active {
+  background-color: #1e7e34; /* Even darker green on click */
+}
+
+/* Resolve button - Blue color */
+.resolve-button {
+  background-color: #007bff; /* Blue */
+  color: white;
+}
+
+.resolve-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.resolve-button:active {
+  background-color: #004085; /* Even darker blue on click */
+}
+
+/* No actions available message styling */
+.alert-table span {
+  font-style: italic;
+  color: #888;
+}

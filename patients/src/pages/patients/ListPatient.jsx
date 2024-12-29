@@ -7,21 +7,35 @@ const ListPatient = () => {
   const [patients, setPatients] = useState([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const userId = localStorage.getItem('userId'); // Get the user's ID from localStorage
 
   useEffect(() => {
+    if (!userId) {
+      setError('User ID not found.');
+      return;
+    }
+
     // Fetch patient data when the component is mounted
     const fetchPatients = async () => {
       try {
         const response = await axios.get('http://localhost:8081/api/patients');
-        setPatients(response.data);
-        console.log(response.data);
+        console.log(response.data); // Log the full patient data for debugging
+
+        // Check if caregiverId exists and matches the userId
+        const filteredPatients = response.data.filter(patient => {
+          console.log(patient.caregiverId, userId); // Log caregiverId and userId for debugging
+          return String(patient.caregiverId) === String(userId); // Compare as strings
+        });
+
+        setPatients(filteredPatients);
+        console.log(filteredPatients); // Log filtered patients
       } catch (err) {
         setError('Error fetching patient data.');
       }
     };
 
     fetchPatients();
-  }, []); // Empty array ensures this effect runs only once on mount
+  }, [userId]); // Rerun effect if userId changes
 
   // Function to navigate to the Add Patient page
   const handleAddPatient = () => {
@@ -30,14 +44,13 @@ const ListPatient = () => {
 
   // Function to handle editing a patient
   const handleEditPatient = (id) => {
-    // Navigate to the EditPatient page with the patient ID
     navigate(`/patients/edit/${id}`);
   };
 
   // Function to handle deleting a patient
   const handleDeletePatient = async (id) => {
     try {
-      await axios.delete(`http://localhost:8081/api/patients/${id}`); // Use patient ID for delete request
+      await axios.delete(`http://localhost:8081/api/patients/${id}`);
       setPatients(patients.filter(patient => patient.id !== id)); // Remove deleted patient from state
     } catch (err) {
       setError('Error deleting patient.');
@@ -69,7 +82,7 @@ const ListPatient = () => {
         <tbody>
           {patients.length > 0 ? (
             patients.map((patient) => (
-              <tr key={patient.id}> {/* Use the unique ID as the key */}
+              <tr key={patient.id}>
                 <td>
                   <button onClick={() => handleViewPatientDetails(patient.id)}>
                     {patient.name}
@@ -79,8 +92,8 @@ const ListPatient = () => {
                 <td>{patient.medicalCondition}</td>
                 <td>{patient.wearableId}</td>
                 <td>
-                  <button onClick={() => handleEditPatient(patient.id)}>Edit</button>
-                  <button onClick={() => handleDeletePatient(patient.id)}>Delete</button>
+                  <button onClick={() => handleEditPatient(patient.id)}className='edit-button'>Edit</button>
+                  <button onClick={() => handleDeletePatient(patient.id)}className="delete-button">Delete</button>
                 </td>
               </tr>
             ))
